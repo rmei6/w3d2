@@ -13,5 +13,13 @@ class HumanPlayer
   def get_input(positions)
     position = gets.chomp
     position = position.split(" ").map! { |char| char.to_i}
-   end
+  end
+
+  def receive_revealed_card(positions, value)
+
+  end
+
+  def check_match
+
+  end
 end

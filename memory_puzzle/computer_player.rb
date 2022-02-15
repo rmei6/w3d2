@@ -5,16 +5,29 @@ class ComputerPlayer
   end
 
   def get_input(positions)
-    known = @known_cards.values.select {|card| card.length == 2}
-    if known
-      @known_cards.delete(@known_cards.key(known))
-      if positions.include?(known.first)
-        return known.first 
+    if @matched_cards.length > 0
+      matched = @matched_cards.first
+      if positions.include?(matched.first)
+        return matched.first 
       else
-        return known.last
+        return matched.last
       end
     else
       positions.sample
     end
+  end
+
+  #check if match
+  #if match return match
+  #else make guess and give to recieve revelead
+  #call check_match
+
+  def receive_revealed_card(position, value)
+    @known_cards[value] << position
+  end
+
+  def check_match
+    @known_cards.values.each {|card| @matched_cards << card if card.length == 2}
+    @known_cards.delete(@known_cards.key(@matched_cards[0]))
   end
 end

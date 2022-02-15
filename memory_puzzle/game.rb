@@ -1,5 +1,7 @@
 require_relative "board"
 require_relative "human_player"
+require_relative "computer_player"
+#require "byebug"
 
 class Game
   def initialize(size)
@@ -8,23 +10,39 @@ class Game
     @human_player = HumanPlayer.new()
     @ai = @human_player.prompt
     @current_player = @human_player
-
+    @computer_player = ComputerPlayer.new()
   end
 
-
+  def switch
+    if @ai
+      if @current_player == @computer_player
+        @current_player = @human_player
+      else
+        @current_player = @computer_player
+      end
+    end
+  end
 
   def play
     @board.populate
+    #p @board.grid
     until @board.won?
+    #5.times do 
       @board.render
       if @previous_guess == nil
         print "Enter a first guess Ex. 1 2: " 
       else
         print "Enter a second guess Ex. 1 2: " 
       end
-      positions = @board.available_positions
+      #p @board.grid
+      positions = @board.available_positions 
       position = @current_player.get_input(positions)
+      #p @board.[](position)
+      #debugger
+      @current_player.receive_revealed_card(position, @board[position].value) if @current_player == @computer_player
+      @current_player.check_match if @current_player == @computer_player
       make_guess(position)
+      switch if @previous_guess != nil
     end
     puts "You Won!!!"
   end
@@ -37,7 +55,7 @@ class Game
       @board.reveal(position)
       if @board[position] != @board[@previous_guess]
         @board.render
-        sleep(1)
+        sleep(2)
         system("clear")
         @board.[](position).hide
         @board.[](@previous_guess).hide
@@ -51,3 +69,6 @@ class Game
 
 
 end
+
+game = Game.new(2)
+game.play

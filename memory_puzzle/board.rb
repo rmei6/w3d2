@@ -3,7 +3,7 @@ class Board
   attr_reader :grid
   def initialize(size)
     @size = size
-    @grid = Array.new(size) {Array.new(size," ")}
+    @grid = Array.new(size) {Array.new(size,nil)}
   end
 
   def random_values
@@ -38,7 +38,7 @@ class Board
     positions = []
     (0...@size).each do |row|
       (0...@size).each do |col|
-        positions << [row, col] unless @grid.[](position).face_up
+        positions << [row, col]
       end
     end
     positions
@@ -48,7 +48,7 @@ class Board
     puts "  " + ("0"...@size.to_s).to_a.join(" ")
     (0...@size).each do |row|
       puts "#{row} " + @grid[row].map {|card| 
-      if card.face_up  
+      if card.face_up
         card.value
       else
         " "
