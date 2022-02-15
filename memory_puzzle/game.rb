@@ -34,15 +34,17 @@ class Game
       else
         print "Enter a second guess Ex. 1 2: " 
       end
-      #p @board.grid
       positions = @board.available_positions 
       position = @current_player.get_input(positions)
-      #p @board.[](position)
-      #debugger
       @current_player.receive_revealed_card(position, @board[position].value) if @current_player == @computer_player
       @current_player.check_match if @current_player == @computer_player
-      make_guess(position)
-      switch if @previous_guess != nil
+      if @board[position].face_up
+        puts "Card has already been guessed"
+      else
+        puts "Inputed Position: #{position}"
+        make_guess(position)
+        switch if @previous_guess == nil
+      end
     end
     puts "You Won!!!"
   end
@@ -56,11 +58,13 @@ class Game
       if @board[position] != @board[@previous_guess]
         @board.render
         sleep(2)
-        system("clear")
+        #system("clear")
         @board.[](position).hide
         @board.[](@previous_guess).hide
       else
+        @board.reveal(position)
         puts "You made a pair!"
+        sleep(1)
       end
       @previous_guess = nil
     end
@@ -70,5 +74,5 @@ class Game
 
 end
 
-game = Game.new(2)
+game = Game.new(4)
 game.play

@@ -23,7 +23,7 @@ class Board
 
   def populate
     cards = random_values
-    positions = available_positions
+    positions = fill_positions
     cards.each do |card|
       2.times do 
         position = positions.sample
@@ -34,11 +34,21 @@ class Board
     true
   end
 
-  def available_positions
+  def fill_positions
     positions = []
     (0...@size).each do |row|
       (0...@size).each do |col|
         positions << [row, col]
+      end
+    end
+    positions
+  end
+
+  def available_positions
+    positions = []
+    (0...@size).each do |row|
+      (0...@size).each do |col|
+        positions << [row, col] unless @grid[row][col].face_up
       end
     end
     positions

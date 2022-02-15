@@ -6,7 +6,9 @@ class ComputerPlayer
 
   def get_input(positions)
     if @matched_cards.length > 0
+      puts "AI rembered a match"
       matched = @matched_cards.first
+      @matched_cards = []
       if positions.include?(matched.first)
         return matched.first 
       else
