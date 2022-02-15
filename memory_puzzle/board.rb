@@ -62,9 +62,13 @@ class Board
   end
 
   def reveal(guess_position)
-    row,col = guess_position
-    @grid[row][col].reveal
-    @grid[row][col].value
+    self.[](guess_position).reveal
+    self.[](guess_position).value
   end
+
+  def [](position)
+    row, col = position
+    @grid[row][col]
+  end 
 
 end
