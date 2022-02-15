@@ -38,7 +38,7 @@ class Board
     positions = []
     (0...@size).each do |row|
       (0...@size).each do |col|
-        positions << [row, col]
+        positions << [row, col] unless @grid.[](position).face_up
       end
     end
     positions

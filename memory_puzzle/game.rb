@@ -1,10 +1,17 @@
 require_relative "board"
+require_relative "human_player"
 
 class Game
   def initialize(size)
     @board = Board.new(size)
     @previous_guess = nil
+    @human_player = HumanPlayer.new()
+    @ai = @human_player.prompt
+    @current_player = @human_player
+
   end
+
+
 
   def play
     @board.populate
@@ -15,8 +22,8 @@ class Game
       else
         print "Enter a second guess Ex. 1 2: " 
       end
-      position = gets.chomp
-      position = position.split(" ").map! { |char| char.to_i}
+      positions = @board.available_positions
+      position = @current_player.get_input(positions)
       make_guess(position)
     end
     puts "You Won!!!"
